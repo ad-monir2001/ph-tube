@@ -26,11 +26,25 @@ const videos = (data) => {
     div.innerHTML = `
     <img src="${video.thumbnail}" class="rounded-lg w-80 h-52">
     <div class="flex gap-2 mt-4 items-start">
-        <img src="${video?.authors[0]?.profile_picture}" class="w-8 h-8 rounded-full">
+        <img src="${
+          video?.authors[0]?.profile_picture
+        }" class="w-8 h-8 rounded-full">
         <div class="space-y-1">
             <h1 class="font-bold text-base">${video.title}</h1>
-            <p class="font-medium text-sm text-[#171717B2]">${video?.authors[0]?.profile_name}</p>
-            <p class="font-medium text-sm text-[#171717B2]">${video?.others?.views} views</p>
+            <div class='flex gap-1'>
+              <p class="font-medium text-sm text-[#171717B2]">${
+                video?.authors[0]?.profile_name
+              }</p>
+
+              ${
+                video.authors[0].verified == true
+                  ? `<img src="./verified.svg" id='verify-el'/>`
+                  : ''
+              }
+            </div>
+            <p class="font-medium text-sm text-[#171717B2]">${
+              video?.others?.views
+            } views</p>
         </div>
     </div>
   `;
