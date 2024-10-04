@@ -11,8 +11,7 @@
     />
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-
-      .active{
+      .active {
         background-color: red;
         color: white;
       }
@@ -24,16 +23,34 @@
       <nav class="flex justify-between items-center py-4 border-b">
         <!-- logo -->
         <div>
-          <img src="/Logo.png" alt="" />
+          <a href="index.html"><img src="/Logo.png" alt="" /></a>
         </div>
         <button class="btn">Sort by view</button>
         <button class="btn text-white bg-red-500">Blog</button>
       </nav>
-      <!-- catagories -->
-      <div id="category-container" class="text-center my-8 flex gap-3 justify-center"></div>
+      <!-- catagories buttons container-->
+      <div
+        id="category-container"
+        class="text-center py-8 flex gap-3 justify-center border-b"
+      ></div>
+
+      <!-- search input -->
+
+      <div class="py-5 flex justify-center gap-4">
+        <input
+          id="searchField"
+          type="text"
+          placeholder="Type here"
+          class="input input-bordered w-full max-w-xs"
+        />
+        <button class="btn" id="searchBtn">Search</button>
+      </div>
     </header>
     <main>
-        <section id="videos-container" class="grid grid-cols-4 gap-4 w-11/12 mx-auto"></section>
+      <section
+        id="videos-container"
+        class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 w-11/12 mx-auto"
+      ></section>
     </main>
     <script src="./app.js"></script>
   </body>

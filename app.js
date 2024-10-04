@@ -18,7 +18,7 @@ const categories = (data) => {
 const removeActiveClass = () => {
   const buttons = document.getElementsByClassName('categoryBtn');
   for (let btn of buttons) {
-    btn.classList.remove('active')
+    btn.classList.remove('active');
   }
 };
 const showId = (id) => {
@@ -32,8 +32,10 @@ const showId = (id) => {
     });
 };
 
-const loadVideos = () => {
-  fetch('https://openapi.programming-hero.com/api/phero-tube/videos')
+const loadVideos = (search = '') => {
+  fetch(
+    `https://openapi.programming-hero.com/api/phero-tube/videos?title=${search}`
+  )
     .then((res) => res.json())
     .then((data) => videos(data.videos))
     .catch((error) => console.log(error));
@@ -78,7 +80,7 @@ const videos = (data) => {
       ${
         video.others.posted_date?.length == 0
           ? ''
-          : `<span class="absolute bg-slate-700 text-white font-medium rounded-lg p-1 right-14 bottom-3 text-xs">${convertTime(
+          : `<span class="absolute bg-slate-700 text-white font-medium rounded-lg p-1 right-10 bottom-3 text-xs">${convertTime(
               video.others.posted_date
             )}</span> `
       }
@@ -112,3 +114,11 @@ const videos = (data) => {
 };
 
 loadVideos();
+
+// search functionality
+
+document.getElementById('searchBtn').addEventListener('click', () => {
+  const search = document.getElementById('searchField').value;
+  loadVideos(search);
+  document.getElementById('searchField').value = ''
+});
