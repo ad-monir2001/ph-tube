@@ -120,5 +120,20 @@ loadVideos();
 document.getElementById('searchBtn').addEventListener('click', () => {
   const search = document.getElementById('searchField').value;
   loadVideos(search);
-  document.getElementById('searchField').value = ''
+  document.getElementById('searchField').value = '';
+});
+
+// sort by view
+
+document.getElementById('sortBtn').addEventListener('click', async () => {
+  const res = await fetch(
+    'https://openapi.programming-hero.com/api/phero-tube/videos'
+  );
+  const data = await res.json();
+  videos(data.videos);
+  const videosList = data.videos;
+  const sorted = videosList.sort(
+    (a, b) => parseInt(a.others.views) - parseInt(b.others.views)
+  );
+  videos(sorted);
 });
