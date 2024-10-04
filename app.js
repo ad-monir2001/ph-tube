@@ -6,21 +6,30 @@ const categories = (data) => {
   const categoryList = data.categories;
 
   for (let x of categoryList) {
-    // console.log(x);
-    const catagoryContainer = document.getElementById('catagory-container');
+    const categoryContainer = document.getElementById('category-container');
     let div = document.createElement('div');
     div.innerHTML = `
-      <button class="btn" onclick="showId(${x.category_id})" >${x.category}</button>
+      <button id="btn-${x.category_id}" class="btn categoryBtn" onclick="showId(${x.category_id})" >${x.category}</button>
     `;
 
-    catagoryContainer.appendChild(div);
+    categoryContainer.appendChild(div);
   }
 };
-
+const removeActiveClass = () => {
+  const buttons = document.getElementsByClassName('categoryBtn');
+  for (let btn of buttons) {
+    btn.classList.remove('active')
+  }
+};
 const showId = (id) => {
   fetch(`https://openapi.programming-hero.com/api/phero-tube/category/${id}`)
     .then((res) => res.json())
-    .then((data) => videos(data.category));
+    .then((data) => {
+      removeActiveClass();
+      const activeBtn = document.getElementById(`btn-${id}`);
+      activeBtn.classList.add('active');
+      videos(data.category);
+    });
 };
 
 const loadVideos = () => {
