@@ -6,20 +6,32 @@ const categories = (data) => {
   const categoryList = data.categories;
 
   for (let x of categoryList) {
+    // console.log(x);
     const catagoryContainer = document.getElementById('catagory-container');
-    let button = document.createElement('button');
-    button.classList.add('btn');
-    button.innerText = x.category;
-    catagoryContainer.appendChild(button);
+    let div = document.createElement('div');
+    div.innerHTML = `
+      <button class="btn" onclick="showId(${x.category_id})" >${x.category}</button>
+    `;
+
+    catagoryContainer.appendChild(div);
   }
 };
 
-fetch('https://openapi.programming-hero.com/api/phero-tube/videos')
-  .then((res) => res.json())
-  .then((data) => videos(data));
+const showId = (id) => {
+  fetch(`https://openapi.programming-hero.com/api/phero-tube/category/${id}`)
+    .then((res) => res.json())
+    .then((data) => videos(data.category));
+};
+
+const loadVideos = () => {
+  fetch('https://openapi.programming-hero.com/api/phero-tube/videos')
+    .then((res) => res.json())
+    .then((data) => videos(data.videos))
+    .catch((error) => console.log(error));
+};
+
 // time conversion
 const convertTime = (time) => {
-  console.log(time);
   const timeNumber = parseInt(time);
   const day = parseInt(timeNumber / 86400);
   let remainingSecond = timeNumber % 86400;
@@ -28,15 +40,27 @@ const convertTime = (time) => {
   const minute = parseInt(remainingSecond / 60);
   remainingSecond = remainingSecond % 60;
   const second = remainingSecond;
-  console.log(second);
-  console.log();
+
   return `${day} day ${hour} Hour ${minute} Minute ${second} second`;
 };
 
 const videos = (data) => {
-  const videos = data.videos;
-  for (let video of videos) {
-    console.log(video.others.posted_date);
+  const videoContainer = document.getElementById('videos-container');
+  videoContainer.innerHTML = '';
+
+  if (data.length == 0) {
+    videoContainer.classList.remove('grid');
+    videoContainer.innerHTML = `
+      <div class="flex flex-col items-center justify-center mt-5">
+        <img src="Icon.png">
+        <h1 class="text-2xl font-bold text-red-500 mt-2">NO videos on this categories.</h1>
+      </div>
+    `;
+  } else {
+    videoContainer.classList.add('grid');
+  }
+
+  for (let video of data) {
     let div = document.createElement('div');
     div.classList.add('p-4', 'm-4', 'rounded-lg');
     div.innerHTML = `
@@ -73,7 +97,9 @@ const videos = (data) => {
         </div>
     </div>
   `;
-    const videoContainer = document.getElementById('videos-container');
+
     videoContainer.appendChild(div);
   }
 };
+
+loadVideos();
